@@ -1,12 +1,17 @@
 import React from "react";
 import { useLoaderData, useParams } from "react-router";
+import { addId } from "../../Utilities/addToDB";
 
 const BookDetails = () => {
+  const handleAdd = (id) => {
+    addId(id);
+  };
   const { id } = useParams();
   const books = useLoaderData();
   const bookDetails = books.find((book) => book.bookId === Number(id));
 
   const {
+    bookId,
     bookName,
     author,
     category,
@@ -70,7 +75,10 @@ const BookDetails = () => {
           </div>
 
           <div className="pt-4">
-            <button className="btn btn-success btn-outline mr-2 hover:text-white">
+            <button
+              onClick={() => handleAdd(bookId)}
+              className="btn btn-success btn-outline mr-2 hover:text-white"
+            >
               Read
             </button>
             <button className="btn btn-accent text-white">Wishlist</button>
