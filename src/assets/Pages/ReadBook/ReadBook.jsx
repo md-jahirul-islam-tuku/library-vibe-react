@@ -18,9 +18,9 @@ const ReadBook = ({ book, removeId }) => {
     rating,
   } = book;
   return (
-    <div className="card card-side shadow-sm mb-8">
-      <figure className="h-40 bg-base-300 m-4 rounded-lg">
-        <img className="p-4 rounded-lg" src={image} alt="Movie" />
+    <div className="card md:card-side shadow-sm mb-8">
+      <figure className="h-66 md:h-40 bg-base-300 m-4 rounded-lg">
+        <img className="p-4 rounded-lg h-full" src={image} alt="Movie" />
       </figure>
       <div className="card-body">
         <div className="flex justify-between">

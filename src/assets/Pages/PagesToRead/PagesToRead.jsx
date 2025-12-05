@@ -74,10 +74,10 @@ const CustomBarLabel = ({ x, y, width, value, index, colors }) => (
 const PagesToRead = () => {
   const books = useLoaderData();
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w-[1170px] mx-auto mt-20 bg-base-200 rounded-lg mb-10">
       <ResponsiveContainer height={700}>
       <BarChart data={books} margin={margin}>
-        <XAxis dataKey="bookName" angle={-90} textAnchor="end" interval={0} stroke="#ccc" />
+        <XAxis dataKey="bookName" angle={-90} textAnchor="end" interval={0} stroke="" />
         <YAxis stroke="" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
         <Bar dataKey="totalPages" shape={TriangleBar}>
