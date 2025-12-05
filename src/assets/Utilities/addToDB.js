@@ -3,11 +3,6 @@
 export const getIds = () => {
   const stored = localStorage.getItem("id");
   if (!stored) return [];
-  try {
-    return JSON.parse(stored);
-  } catch (error) {
-    return [];
-  }
 };
 
 export const addId = (id) => {
