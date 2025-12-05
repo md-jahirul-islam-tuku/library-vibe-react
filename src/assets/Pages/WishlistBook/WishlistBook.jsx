@@ -1,10 +1,11 @@
 import React from "react";
+
 import { SlLocationPin } from "react-icons/sl";
 import { GoPeople } from "react-icons/go";
 import { MdLibraryBooks } from "react-icons/md";
 import { Link } from "react-router";
 
-const ReadBook = ({ book, removeId }) => {
+const WishlistBook = ({ book, removeId }) => {
   const {
     bookId,
     image,
@@ -61,10 +62,7 @@ const ReadBook = ({ book, removeId }) => {
           <button className="btn btn-sm btn-warning btn-soft rounded-full">
             Rating : {rating}
           </button>
-          <Link
-            to={`/bookDetails/${bookId}`}
-            className="btn btn-sm btn-success rounded-full text-white"
-          >
+          <Link to={`/bookDetails/${bookId}`} className="btn btn-sm btn-success rounded-full text-white">
             View Details
           </Link>
         </div>
@@ -73,4 +71,4 @@ const ReadBook = ({ book, removeId }) => {
   );
 };
 
-export default ReadBook;
+export default WishlistBook;

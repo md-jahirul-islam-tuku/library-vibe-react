@@ -2,19 +2,33 @@ import React from "react";
 import { useLoaderData, useParams } from "react-router";
 import { addId } from "../../Utilities/addToDB";
 import { toast, ToastContainer } from "react-toastify";
+import { wishAddId } from "../../Utilities/wishlistAddToDB";
 
 const BookDetails = () => {
   const handleAdd = (id) => {
     const result = addId(id);
 
     if (result === "ID_ADDED") {
-      toast.success("Book added successfully ✅");
+      toast.success("Book added to Read list ✅");
     } else if (result === "ID_EXISTS") {
       toast.error("Book already exists ⚠️");
     } else {
       toast.error("Invalid book ID ❌");
     }
   };
+
+  const handleWish = (id) => {
+    const result = wishAddId(id);
+
+    if (result === "ID_ADDED") {
+      toast.success("Book added to Wishlist ✅");
+    } else if (result === "ID_EXISTS") {
+      toast.error("Book already exists ⚠️");
+    } else {
+      toast.error("Invalid book ID ❌");
+    }
+  };
+
   const { id } = useParams();
   const books = useLoaderData();
   const bookDetails = books.find((book) => book.bookId === Number(id));
@@ -90,8 +104,13 @@ const BookDetails = () => {
             >
               Read
             </button>
-            <button className="btn btn-accent text-white">Wishlist</button>
-            <ToastContainer autoClose={1000} position="top-center"/>
+            <button
+              onClick={() => handleWish(bookId)}
+              className="btn btn-accent text-white"
+            >
+              Wishlist
+            </button>
+            <ToastContainer autoClose={1000} position="top-center" />
           </div>
         </div>
       </div>
