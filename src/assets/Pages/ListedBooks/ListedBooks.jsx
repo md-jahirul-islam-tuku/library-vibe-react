@@ -13,11 +13,15 @@ const ListedBooks = () => {
   const toggleSort = (type) => {
     if (type === "pages") {
       setSortBy("totalPages");
-      setStatus("Pages");
+      setStatus(": Pages");
     }
     if (type === "rating") {
       setSortBy("rating");
-      setStatus("Rating");
+      setStatus(": Rating");
+    }
+    if (type === "publishingYear") {
+      setSortBy("yearOfPublishing");
+      setStatus(": Year");
     }
   };
   return (
@@ -40,10 +44,15 @@ const ListedBooks = () => {
             className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
           >
             <li>
-              <a onClick={() => toggleSort("pages")}>Pages</a>
+              <a onClick={() => toggleSort("rating")}>Rating</a>
             </li>
             <li>
-              <a onClick={() => toggleSort("rating")}>Rating</a>
+              <a onClick={() => toggleSort("pages")}>Number of pages</a>
+            </li>
+            <li>
+              <a onClick={() => toggleSort("publishingYear")}>
+                Publishing year
+              </a>
             </li>
           </ul>
         </div>
