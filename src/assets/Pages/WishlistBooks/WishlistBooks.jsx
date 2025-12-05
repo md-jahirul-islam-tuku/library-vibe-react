@@ -3,7 +3,7 @@ import WishlistBook from "../WishlistBook/WishlistBook";
 import { toast } from "react-toastify";
 import { wishGetIds } from "../../Utilities/wishlistAddToDB";
 
-const WishlistBooks = () => {
+const WishlistBooks = ({ sortBy }) => {
   const [books, setBooks] = useState([]);
   useEffect(() => {
     const storedIds = wishGetIds();
@@ -16,6 +16,8 @@ const WishlistBooks = () => {
         setBooks(filteredBooks);
       });
   }, []);
+
+  const sortedBooks = [...books].sort((a, b) => b[sortBy] - a[sortBy]);
 
   const removeId = (id) => {
     const currentIds = wishGetIds();
@@ -33,7 +35,7 @@ const WishlistBooks = () => {
   };
   return (
     <div>
-      {books.map((book) => (
+      {sortedBooks.map((book) => (
         <WishlistBook key={book.bookId} book={book} removeId={removeId} />
       ))}
     </div>

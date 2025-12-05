@@ -3,7 +3,7 @@ import ReadBook from "../ReadBook/ReadBook";
 import { getIds } from "../../Utilities/addToDB";
 import { toast } from "react-toastify";
 
-const ReadBooks = () => {
+const ReadBooks = ({ sortBy }) => {
   const [books, setBooks] = useState([]);
   useEffect(() => {
     const storedIds = getIds();
@@ -16,6 +16,8 @@ const ReadBooks = () => {
         setBooks(filteredBooks);
       });
   }, []);
+
+  const sortedBooks = [...books].sort((a, b) => b[sortBy] - a[sortBy]);
 
   const removeId = (id) => {
     const currentIds = getIds();
@@ -34,7 +36,7 @@ const ReadBooks = () => {
 
   return (
     <div>
-      {books.map((book) => (
+      {sortedBooks.map((book) => (
         <ReadBook key={book.bookId} removeId={removeId} book={book} />
       ))}
     </div>
