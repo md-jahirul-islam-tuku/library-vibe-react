@@ -47,7 +47,7 @@ const BookDetails = () => {
     image,
   } = bookDetails;
   return (
-    <div className="hero my-10 max-w-[1170px] mx-auto">
+    <div className="hero my-10 max-w-[1170px] mx-auto mt-20">
       <div className="hero-content flex-col lg:flex-row">
         <figure className="w-1/2 flex justify-center bg-base-200 rounded-2xl">
           <img src={image} className="rounded-lg shadow-xl h-[65vh]  m-20" />
@@ -110,7 +110,7 @@ const BookDetails = () => {
             >
               Wishlist
             </button>
-            <ToastContainer autoClose={1000} position="top-center" />
+            <ToastContainer autoClose={1000} position="bottom-right" />
           </div>
         </div>
       </div>
