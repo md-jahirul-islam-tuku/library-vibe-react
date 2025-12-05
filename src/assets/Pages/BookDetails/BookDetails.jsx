@@ -1,10 +1,19 @@
 import React from "react";
 import { useLoaderData, useParams } from "react-router";
 import { addId } from "../../Utilities/addToDB";
+import { toast, ToastContainer } from "react-toastify";
 
 const BookDetails = () => {
   const handleAdd = (id) => {
-    addId(id);
+    const result = addId(id);
+
+    if (result === "ID_ADDED") {
+      toast.success("Book added successfully ✅");
+    } else if (result === "ID_EXISTS") {
+      toast.error("Book already exists ⚠️");
+    } else {
+      toast.error("Invalid book ID ❌");
+    }
   };
   const { id } = useParams();
   const books = useLoaderData();
@@ -82,6 +91,7 @@ const BookDetails = () => {
               Read
             </button>
             <button className="btn btn-accent text-white">Wishlist</button>
+            <ToastContainer autoClose={1000} position="top-center"/>
           </div>
         </div>
       </div>
