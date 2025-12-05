@@ -1,13 +1,17 @@
-// localStorageIds.js
-
+// Get array of IDs from localStorage
 export const getIds = () => {
   const stored = localStorage.getItem("id");
   if (!stored) return [];
+  try {
+    return JSON.parse(stored);
+  } catch (error) {
+    alert("Failed to parse localStorage data:", error);
+    return [];
+  }
 };
 
+// Add an ID to localStorage array
 export const addId = (id) => {
-  if (!id) return "ID_REQUIRED";
-
   const currentIds = getIds();
 
   if (currentIds.includes(id)) {
@@ -18,10 +22,3 @@ export const addId = (id) => {
   localStorage.setItem("id", JSON.stringify(updatedIds));
   return "ID_ADDED";
 };
-
-// export const removeId = (id) => {
-//   const currentIds = getIds();
-//   const updatedIds = currentIds.filter((i) => i !== id);
-//   localStorage.setItem("id", JSON.stringify(updatedIds));
-//   return "ID_REMOVED";
-// };
