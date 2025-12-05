@@ -3,6 +3,7 @@ import { SlLocationPin } from "react-icons/sl";
 import { GoPeople } from "react-icons/go";
 import { MdLibraryBooks } from "react-icons/md";
 import { Link } from "react-router";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const ReadBook = ({ book, removeId }) => {
   const {
@@ -29,7 +30,7 @@ const ReadBook = ({ book, removeId }) => {
             onClick={() => removeId(bookId)}
             className="font-bold cursor-pointer bg-base-300 px-2 rounded-full hover:bg-red-200 hover:text-red-500"
           >
-            X
+            <RiDeleteBin6Line />
           </button>
         </div>
         <p>By : {author}</p>
