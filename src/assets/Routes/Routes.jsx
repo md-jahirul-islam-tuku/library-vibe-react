@@ -16,6 +16,7 @@ export const router = createBrowserRouter([
       {
         index: true,
         loader: () => fetch("booksData.json"),
+        hydrateFallbackElement:<h1>Loading....</h1>,
         Component: Home,
       },
       {
@@ -25,11 +26,13 @@ export const router = createBrowserRouter([
       {
         path: "/pages-to-read",
         loader: () => fetch("booksData.json"),
+        hydrateFallbackElement:<h1>Loading....</h1>,
         Component: PagesToRead,
       },
       {
         path: "/bookDetails/:id",
         loader: () => fetch("booksData.json"),
+        hydrateFallbackElement:<h1>Loading....</h1>,
         Component: BookDetails,
       },
     ],
