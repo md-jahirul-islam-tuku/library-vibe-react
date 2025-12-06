@@ -15,12 +15,17 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+<<<<<<< HEAD
         loader: async () => {
           const res = await fetch("/booksData.json");
           return res.json();
         },
 
         hydrateFallbackElement: <h1>Loading ...</h1>,
+=======
+        loader: () => fetch("booksData.json"),
+        hydrateFallbackElement:<h1>Loading....</h1>,
+>>>>>>> dffb6c46d58b9d15b9dd02ce6ffa939f6eb37787
         Component: Home,
       },
       {
@@ -28,6 +33,7 @@ export const router = createBrowserRouter([
         Component: ListedBooks,
       },
       {
+<<<<<<< HEAD
         path: "pages-to-read",
         loader: async () => {
           const res = await fetch("/booksData.json");
@@ -43,6 +49,17 @@ export const router = createBrowserRouter([
           return res.json();
         },
         hydrateFallbackElement: <h1>Loading ...</h1>,
+=======
+        path: "/pages-to-read",
+        loader: () => fetch("booksData.json"),
+        hydrateFallbackElement:<h1>Loading....</h1>,
+        Component: PagesToRead,
+      },
+      {
+        path: "/bookDetails/:id",
+        loader: () => fetch("booksData.json"),
+        hydrateFallbackElement:<h1>Loading....</h1>,
+>>>>>>> dffb6c46d58b9d15b9dd02ce6ffa939f6eb37787
         Component: BookDetails,
       },
     ],
