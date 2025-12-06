@@ -28,7 +28,7 @@ const ReadBook = ({ book, removeId }) => {
           <h2 className="card-title">{bookName}</h2>
           <button
             onClick={() => removeId(bookId)}
-            className="font-bold cursor-pointer bg-base-300 px-2 rounded-full hover:bg-red-200 hover:text-red-500"
+            className="font-bold cursor-pointer bg-base-300 px-2 rounded-full hover:bg-red-200 hover:text-red-500 tooltip tooltip-left tooltip-success" data-tip="Delete from Read list"
           >
             <RiDeleteBin6Line />
           </button>
