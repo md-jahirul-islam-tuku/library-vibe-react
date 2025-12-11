@@ -6,6 +6,8 @@ import Home from "../Pages/Home/Home";
 import ListedBooks from "../Pages/ListedBooks/ListedBooks";
 import PagesToRead from "../Pages/PagesToRead/PagesToRead";
 import BookDetails from "../Pages/BookDetails/BookDetails";
+import SignUp from "../Pages/SignUp/SignUp";
+import SignIn from "../Pages/SignIn/SignIn";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +46,14 @@ export const router = createBrowserRouter([
         },
         hydrateFallbackElement: <h1>Loading ...</h1>,
         Component: BookDetails,
+      },
+      {
+        path: "signUp",
+        Component: SignUp,
+      },
+      {
+        path: "signIn",
+        Component: SignIn,
       },
     ],
   },
