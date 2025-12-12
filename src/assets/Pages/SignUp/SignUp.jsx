@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { Link } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
@@ -12,7 +15,11 @@ const SignUp = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
+    const terms = e.target.terms.checked;
+    if (terms === false) {
+      setMessage("Please accept the terms and conditions");
+      return;
+    }
     if (!/.{6,}/.test(password)) {
       setMessage("Password must be at least 6 characters long.");
       return;
@@ -32,24 +39,30 @@ const SignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result.user);
-        setShowPassword(false);
-        setMessage(false);
-        toast.success("Sign up successful 👌", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
+        sendEmailVerification(auth.currentUser).then(() => {
+          setMessage("* Please open your email and verify");
+          toast.success("Sign up successful. Please verify 👌", {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
         });
+        setShowPassword(false);
         e.target.reset();
       })
       .catch((error) => {
         error.code === "auth/email-already-in-use"
-          ? setMessage("* Email already in use")
+          ? (setMessage("* Email already in use"),
+            toast.info("Email already in use!", {
+              position: "top-center",
+              autoClose: 2000,
+            }))
           : setMessage(error.code || error.message);
       });
   };
@@ -86,22 +99,22 @@ const SignUp = () => {
                   {showPassword ? <PiEyeClosedBold /> : <PiEyeBold />}
                 </span>
               </div>
-              <button className="btn btn-success mt-4">Sign up</button>
-              <button className="btn btn-ghost mt-1" type="reset">
+              <label className="label mt-2 font-semibold text-primary">
+                <input type="checkbox" name="terms" className="checkbox checkbox-xs checkbox-primary" />
+                Accept Terms and Conditions
+              </label>
+              <button className="btn btn-success mt-2">Sign up</button>
+              <button className="btn btn-ghost" type="reset">
                 Reset
               </button>
+              <div className="text-center font-bold">
+                Already have an account?
+                <Link className="ml-2 text-green-600 underline" to={"/signIn"}>
+                  Sign In
+                </Link>
+              </div>
               <div className="flex items-center">
                 <p className="text-red-500">{message}</p>
-                {message ? (
-                  <Link
-                    className="btn btn-sm text-lg btn-success"
-                    to={"/signIn"}
-                  >
-                    Sign in
-                  </Link>
-                ) : (
-                  ""
-                )}
               </div>
             </fieldset>
           </div>

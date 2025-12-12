@@ -1,4 +1,7 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
 import { Link } from "react-router";
@@ -8,41 +11,89 @@ import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 const SignIn = () => {
   const [message, setMessage] = useState(false);
   const [show, setShow] = useState(false);
+  const [unverifiedUser, setUnverifiedUser] = useState(null); // store user for resend
 
-  const handleSignIn = (e) => {
+  // resend verification email
+  const resendEmail = async () => {
+    if (unverifiedUser) {
+      await sendEmailVerification(unverifiedUser);
+      toast.info("Verification email resent!", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
+  };
+
+  const handleSignIn = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    signInWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        console.log(result.user);
-        setMessage(false);
-        setShow(false);
-        toast.success("Sign in successful 👌", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
+
+    // password validation
+    if (!/.{6,}/.test(password)) {
+      setMessage("Password must be at least 6 characters long.");
+      return;
+    } else if (!/[A-Z]/.test(password)) {
+      setMessage("Password must contain at least one uppercase letter.");
+      return;
+    } else if (!/[a-z]/.test(password)) {
+      setMessage("Password must contain at least one lowercase letter.");
+      return;
+    } else if (!/[0-9]/.test(password)) {
+      setMessage("Password must contain at least one number.");
+      return;
+    } else if (!/[^A-Za-z0-9]/.test(password)) {
+      setMessage("Password must contain at least one special character.");
+      return;
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      // block unverified account
+      if (!user.emailVerified) {
+        setUnverifiedUser(user);
+        setMessage("* Please verify your email.");
+
+        toast.warning("Please verify your email before logging in.", {
+          position: "top-center",
+          autoClose: 2000,
         });
-        e.target.reset();
-      })
-      .catch((error) => {
-        error.code === "auth/invalid-credential"
-          ? setMessage("* Please Sign up")
-          : setMessage(error.code);
+
+        return;
+      }
+
+      // login success
+      toast.success("Sign in successful 👌", {
+        position: "top-center",
+        autoClose: 2000,
       });
+
+      setMessage(false);
+      setShow(false);
+      e.target.reset();
+    } catch (error) {
+      if (error.code === "auth/invalid-credential") {
+        setMessage("* Invalid email or password.");
+      } else {
+        setMessage(error.message);
+      }
+    }
   };
+
   return (
     <form onSubmit={handleSignIn} className="hero bg-base-200 min-h-screen">
       <div className="hero-content w-108 flex-col">
         <div className="text-center">
           <h1 className="text-3xl font-bold">Sign in!</h1>
         </div>
+
         <div className="card bg-base-100 w-full max-w-lg shrink-0 shadow-2xl">
           <div className="card-body">
             <fieldset className="fieldset">
@@ -54,6 +105,7 @@ const SignIn = () => {
                 className="input w-full"
                 required
               />
+
               <label className="label">Password</label>
               <div className="relative">
                 <input
@@ -69,40 +121,53 @@ const SignIn = () => {
                   {show ? <PiEyeClosedBold /> : <PiEyeBold />}
                 </span>
               </div>
+
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>
+
               <button className="btn btn-success mt-4">Sign in</button>
-              <button className="btn btn-ghost mt-1" type="reset">
+
+              <button className="btn btn-ghost" type="reset">
                 Reset
               </button>
-              <div className="flex items-center mt-3">
-                <p className="text-red-500">{message}</p>
-                {message ? (
-                  <Link
-                    className="btn btn-sm text-lg btn-accent"
-                    to={"/signUp"}
-                  >
-                    Sign up
-                  </Link>
+
+              <div className="text-center font-bold">
+                Don’t you have an account?
+                <Link className="ml-2 text-green-600 underline" to={"/signUp"}>
+                  Sign up
+                </Link>
+              </div>
+
+              {/* error + resend email */}
+              <div>
+                {message === "* Please verify your email." ? (
+                  <p className="text-red-500 mt-1 text-center">
+                    {message}{" "}
+                    <button
+                      onClick={resendEmail}
+                      type="button"
+                      className="text-green-600 font-semibold cursor-pointer underline"
+                    >
+                      Resend Verification Email
+                    </button>
+                  </p>
                 ) : (
-                  ""
+                  <p className="text-red-500 mt-1 text-center">{message}</p>
                 )}
               </div>
             </fieldset>
           </div>
         </div>
       </div>
+
       <ToastContainer
-        position="top-right"
-        autoClose={1000}
+        position="top-center"
+        autoClose={2000}
         hideProgressBar={false}
-        newestOnTop={false}
         closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
         pauseOnHover
+        draggable
         theme="light"
         transition={Bounce}
       />
