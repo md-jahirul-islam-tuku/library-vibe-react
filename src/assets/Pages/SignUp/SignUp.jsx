@@ -40,8 +40,8 @@ const SignUp = () => {
       .then((result) => {
         console.log(result.user);
         sendEmailVerification(auth.currentUser).then(() => {
-          setMessage("* Please open your email and verify");
-          toast.success("Sign up successful. Please verify 👌", {
+          setMessage("* Please check your inbox and verify");
+          toast.success("Successful. Please Check your inbox and verify 👌", {
             position: "top-right",
             autoClose: 1000,
             hideProgressBar: false,

@@ -1,8 +1,9 @@
 import {
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
 import { Link } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -12,6 +13,7 @@ const SignIn = () => {
   const [message, setMessage] = useState(false);
   const [show, setShow] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(null); // store user for resend
+  const emailRef = useRef();
 
   // resend verification email
   const resendEmail = async () => {
@@ -21,6 +23,40 @@ const SignIn = () => {
         position: "top-center",
         autoClose: 2000,
       });
+    }
+  };
+
+  // const handleForgotPassword = async (email) => {
+  //   try {
+  //     await sendPasswordResetEmail(auth, email);
+  //     toast.success("Password reset email sent! Check your inbox.");
+  //   } catch (error) {
+  //     console.log(error.message);
+
+  //     if (error.code === "auth/user-not-found") {
+  //       setMessage("No account found with this email.");
+  //     } else {
+  //       setMessage(error.message);
+  //     }
+  //   }
+  // };
+
+  const handleForgotPassword = async () => {
+    const email = emailRef.current.value;
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Password reset email sent! Check your inbox.");
+      setMessage("Password reset email sent! Check your inbox.");
+    } catch (error) {
+      console.log(error.message);
+
+      if (error.code === "auth/user-not-found") {
+        setMessage("* This email is not registered. Please sign up first.");
+      } else if (error.code === "auth/missing-email") {
+        setMessage("* Please enter your email first.");
+      } else {
+        setMessage(error.message);
+      }
     }
   };
 
@@ -59,7 +95,7 @@ const SignIn = () => {
       // block unverified account
       if (!user.emailVerified) {
         setUnverifiedUser(user);
-        setMessage("* Please verify your email.");
+        setMessage("* Please verify your email! Check your inbox.");
 
         toast.warning("Please verify your email before logging in.", {
           position: "top-center",
@@ -99,6 +135,7 @@ const SignIn = () => {
             <fieldset className="fieldset">
               <label className="label">Email</label>
               <input
+                ref={emailRef}
                 type="email"
                 name="email"
                 placeholder="mail@site.com"
@@ -123,7 +160,14 @@ const SignIn = () => {
               </div>
 
               <div>
-                <a className="link link-hover">Forgot password?</a>
+                <a
+                  onClick={() => {
+                    handleForgotPassword();
+                  }}
+                  className="link link-hover"
+                >
+                  Forgot password?
+                </a>
               </div>
 
               <button className="btn btn-success mt-4">Sign in</button>
