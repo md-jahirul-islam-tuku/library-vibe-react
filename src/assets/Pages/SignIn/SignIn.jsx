@@ -2,20 +2,39 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
 import { Link } from "react-router";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 
 const SignIn = () => {
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState(false);
+  const [show, setShow] = useState(false);
 
   const handleSignIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     signInWithEmailAndPassword(auth, email, password)
-      .then((result) => console.log(result.user))
+      .then((result) => {
+        console.log(result.user);
+        setMessage(false);
+        setShow(false);
+        toast.success("Sign in successful 👌", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        e.target.reset();
+      })
       .catch((error) => {
-        error.code === "auth/operation-not-allowed"
-          ? setErrorMessage("* Please Sign up")
-          : setErrorMessage(error.code);
+        error.code === "auth/invalid-credential"
+          ? setMessage("* Please Sign up")
+          : setMessage(error.code);
       });
   };
   return (
@@ -36,22 +55,30 @@ const SignIn = () => {
                 required
               />
               <label className="label">Password</label>
-              <input
-                type="password"
-                name="password"
-                className="input w-full"
-                placeholder="Password"
-              />
+              <div className="relative">
+                <input
+                  type={show ? "text" : "password"}
+                  name="password"
+                  className="input w-full"
+                  placeholder="Password"
+                />
+                <span
+                  onClick={() => setShow(!show)}
+                  className="absolute top-3 right-3 text-lg cursor-pointer z-10"
+                >
+                  {show ? <PiEyeClosedBold /> : <PiEyeBold />}
+                </span>
+              </div>
               <div>
                 <a className="link link-hover">Forgot password?</a>
               </div>
-              <button className="btn btn-neutral mt-4">Sign in</button>
+              <button className="btn btn-success mt-4">Sign in</button>
               <button className="btn btn-ghost mt-1" type="reset">
                 Reset
               </button>
               <div className="flex items-center mt-3">
-                <p className="text-red-500">{errorMessage}</p>
-                {errorMessage ? (
+                <p className="text-red-500">{message}</p>
+                {message ? (
                   <Link
                     className="btn btn-sm text-lg btn-accent"
                     to={"/signUp"}
@@ -66,6 +93,19 @@ const SignIn = () => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </form>
   );
 };
