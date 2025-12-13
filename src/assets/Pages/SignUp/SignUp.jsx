@@ -42,7 +42,7 @@ const SignUp = () => {
         sendEmailVerification(auth.currentUser).then(() => {
           setMessage("* Please check your inbox and verify");
           toast.success("Successful. Please Check your inbox and verify 👌", {
-            position: "top-right",
+            position: "top-center",
             autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: false,
@@ -100,7 +100,11 @@ const SignUp = () => {
                 </span>
               </div>
               <label className="label mt-2 font-semibold text-primary">
-                <input type="checkbox" name="terms" className="checkbox checkbox-xs checkbox-primary" />
+                <input
+                  type="checkbox"
+                  name="terms"
+                  className="checkbox checkbox-xs checkbox-primary"
+                />
                 Accept Terms and Conditions
               </label>
               <button className="btn btn-success mt-2">Sign up</button>
@@ -121,7 +125,7 @@ const SignUp = () => {
         </div>
       </div>
       <ToastContainer
-        position="top-right"
+        position="top-center"
         autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}

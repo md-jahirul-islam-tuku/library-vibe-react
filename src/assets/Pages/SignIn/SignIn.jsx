@@ -26,30 +26,18 @@ const SignIn = () => {
     }
   };
 
-  // const handleForgotPassword = async (email) => {
-  //   try {
-  //     await sendPasswordResetEmail(auth, email);
-  //     toast.success("Password reset email sent! Check your inbox.");
-  //   } catch (error) {
-  //     console.log(error.message);
-
-  //     if (error.code === "auth/user-not-found") {
-  //       setMessage("No account found with this email.");
-  //     } else {
-  //       setMessage(error.message);
-  //     }
-  //   }
-  // };
-
   const handleForgotPassword = async () => {
     const email = emailRef.current.value;
     try {
       await sendPasswordResetEmail(auth, email);
-      toast.success("Password reset email sent! Check your inbox.");
-      setMessage("Password reset email sent! Check your inbox.");
+      toast.success(
+        "If an account exists for this email, a password reset link has been sent."
+      );
+      setMessage(
+        "If an account exists for this email, a password reset link has been sent."
+      );
     } catch (error) {
       console.log(error.message);
-
       if (error.code === "auth/user-not-found") {
         setMessage("* This email is not registered. Please sign up first.");
       } else if (error.code === "auth/missing-email") {
@@ -117,6 +105,10 @@ const SignIn = () => {
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
         setMessage("* Invalid email or password.");
+        toast.warning("Invalid email or password.", {
+          position: "top-center",
+          autoClose: 2000,
+        });
       } else {
         setMessage(error.message);
       }
@@ -140,7 +132,6 @@ const SignIn = () => {
                 name="email"
                 placeholder="mail@site.com"
                 className="input w-full"
-                required
               />
 
               <label className="label">Password</label>
@@ -160,14 +151,13 @@ const SignIn = () => {
               </div>
 
               <div>
-                <a
-                  onClick={() => {
-                    handleForgotPassword();
-                  }}
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
                   className="link link-hover"
                 >
                   Forgot password?
-                </a>
+                </button>
               </div>
 
               <button className="btn btn-success mt-4">Sign in</button>
@@ -177,7 +167,7 @@ const SignIn = () => {
               </button>
 
               <div className="text-center font-bold">
-                Don’t you have an account?
+                Don't you have an account?
                 <Link className="ml-2 text-green-600 underline" to={"/signUp"}>
                   Sign up
                 </Link>
@@ -185,7 +175,7 @@ const SignIn = () => {
 
               {/* error + resend email */}
               <div>
-                {message === "* Please verify your email." ? (
+                {message === "* Please verify your email! Check your inbox." ? (
                   <p className="text-red-500 mt-1 text-center">
                     {message}{" "}
                     <button
@@ -193,7 +183,7 @@ const SignIn = () => {
                       type="button"
                       className="text-green-600 font-semibold cursor-pointer underline"
                     >
-                      Resend Verification Email
+                      Resend
                     </button>
                   </p>
                 ) : (
