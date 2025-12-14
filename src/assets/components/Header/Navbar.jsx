@@ -1,18 +1,32 @@
-import React from "react";
+import React, { use } from "react";
 import { Link, NavLink } from "react-router";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const Navbar = () => {
+  const { user, userSignOut } = use(AuthContext);
+  console.log(user);
+  const handleSignOut = () => {
+    userSignOut()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
   const links = (
     <>
       <li>
         <NavLink to={"/"}>Home</NavLink>
       </li>
-      <li>
-        <NavLink to={"/listed-books"}>Listed Books</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/pages-to-read"}>Pages to Read</NavLink>
-      </li>
+      {user ? (
+        <>
+          <li>
+            <NavLink to={"/listed-books"}>Listed Books</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/pages-to-read"}>Pages to Read</NavLink>
+          </li>
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
   return (
@@ -52,14 +66,20 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <Link to={"/signIn"}
-            className="btn btn-success mr-2 shadow-none"
-          >
-            Sign In
-          </Link>
-          <Link to={"/signUp"} className="btn btn-accent shadow-none">
-            Sign Up
-          </Link>
+          {user ? (
+            <button onClick={handleSignOut} className="btn">
+              Sign Out
+            </button>
+          ) : (
+            <>
+              <Link to={"/signIn"} className="btn btn-success mr-2 shadow-none">
+                Sign In
+              </Link>
+              <Link to={"/signUp"} className="btn btn-accent shadow-none">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

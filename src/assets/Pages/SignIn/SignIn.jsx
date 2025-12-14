@@ -1,19 +1,18 @@
-import {
-  sendEmailVerification,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import React, { useRef, useState } from "react";
+import { sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
+import React, { use, useRef, useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
 import { Link } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const SignIn = () => {
   const [message, setMessage] = useState(false);
   const [show, setShow] = useState(false);
   const [unverifiedUser, setUnverifiedUser] = useState(null); // store user for resend
   const emailRef = useRef();
+
+  const { signInUser } = use(AuthContext);
 
   // resend verification email
   const resendEmail = async () => {
@@ -72,11 +71,7 @@ const SignIn = () => {
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInUser(email, password);
 
       const user = userCredential.user;
 
@@ -94,12 +89,12 @@ const SignIn = () => {
       }
 
       // login success
+      setMessage("* Sign in successful 👌");
       toast.success("Sign in successful 👌", {
         position: "top-center",
         autoClose: 2000,
       });
 
-      setMessage(false);
       setShow(false);
       e.target.reset();
     } catch (error) {

@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+import { sendEmailVerification } from "firebase/auth";
 import { Link } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const SignUp = () => {
   const [message, setMessage] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { createUser } = use(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -36,7 +35,7 @@ const SignUp = () => {
       setMessage("Password must contain at least one special character.");
       return;
     }
-    createUserWithEmailAndPassword(auth, email, password)
+    createUser(email, password)
       .then((result) => {
         console.log(result.user);
         sendEmailVerification(auth.currentUser).then(() => {
@@ -68,7 +67,10 @@ const SignUp = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="hero max-w-[1170px] mx-auto mt-20 mb-14">
+    <form
+      onSubmit={handleSubmit}
+      className="hero max-w-[1170px] mx-auto mt-20 mb-14"
+    >
       <div className="hero-content w-108 flex-col">
         <div className="text-center">
           <h1 className="text-3xl font-bold">Sign up now!</h1>
