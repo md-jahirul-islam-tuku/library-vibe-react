@@ -1,7 +1,7 @@
 import { sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
 import React, { use, useRef, useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -13,6 +13,7 @@ const SignIn = () => {
   const emailRef = useRef();
 
   const { signInUser } = use(AuthContext);
+  const navigate = useNavigate();
 
   // resend verification email
   const resendEmail = async () => {
@@ -87,16 +88,7 @@ const SignIn = () => {
 
         return;
       }
-
-      // login success
-      setMessage("* Sign in successful 👌");
-      toast.success("Sign in successful 👌", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-
-      setShow(false);
-      e.target.reset();
+      navigate("/");
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
         setMessage("* Invalid email or password.");

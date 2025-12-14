@@ -3,32 +3,13 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const Navbar = () => {
-  const { user, userSignOut } = use(AuthContext);
+  const { user, userSignOut, links } = use(AuthContext);
   console.log(user);
   const handleSignOut = () => {
     userSignOut()
       .then(() => {})
       .catch((error) => console.log(error));
   };
-  const links = (
-    <>
-      <li>
-        <NavLink to={"/"}>Home</NavLink>
-      </li>
-      {user ? (
-        <>
-          <li>
-            <NavLink to={"/listed-books"}>Listed Books</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/pages-to-read"}>Pages to Read</NavLink>
-          </li>
-        </>
-      ) : (
-        ""
-      )}
-    </>
-  );
   return (
     <div className="bg-base-100 shadow-sm fixed top-0 left-0 w-full z-10">
       <div className="navbar max-w-[1170px] mx-auto">

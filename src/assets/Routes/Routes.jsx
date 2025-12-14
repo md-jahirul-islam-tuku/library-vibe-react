@@ -8,6 +8,7 @@ import PagesToRead from "../Pages/PagesToRead/PagesToRead";
 import BookDetails from "../Pages/BookDetails/BookDetails";
 import SignUp from "../Pages/SignUp/SignUp";
 import SignIn from "../Pages/SignIn/SignIn";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +28,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "listed-books",
-        Component: ListedBooks,
+        // Component: ListedBooks,
+        element: (
+          <PrivateRoutes>
+            <ListedBooks />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "pages-to-read",
@@ -36,7 +42,12 @@ export const router = createBrowserRouter([
           return res.json();
         },
         hydrateFallbackElement: <h1>Loading ...</h1>,
-        Component: PagesToRead,
+        // Component: PagesToRead,
+        element: (
+          <PrivateRoutes>
+            <PagesToRead />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "bookDetails/:id",
@@ -45,7 +56,12 @@ export const router = createBrowserRouter([
           return res.json();
         },
         hydrateFallbackElement: <h1>Loading ...</h1>,
-        Component: BookDetails,
+        // Component: BookDetails,
+        element: (
+          <PrivateRoutes>
+            <BookDetails />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "signUp",
