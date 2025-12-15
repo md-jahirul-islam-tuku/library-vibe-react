@@ -71,7 +71,7 @@ const ListedBooks = () => {
         </TabPanel>
       </Tabs>
 
-      <ToastContainer autoClose={1000} position="top-center" />
+      <ToastContainer autoClose={1000} position="bottom-right" />
     </div>
   );
 };

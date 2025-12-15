@@ -19,10 +19,7 @@ const SignIn = () => {
   const resendEmail = async () => {
     if (unverifiedUser) {
       await sendEmailVerification(unverifiedUser);
-      toast.info("Verification email resent!", {
-        position: "top-center",
-        autoClose: 2000,
-      });
+      toast.info("Verification email resent!");
     }
   };
 
@@ -79,20 +76,14 @@ const SignIn = () => {
       if (!user.emailVerified) {
         setUnverifiedUser(user);
         setMessage("* Please verify your email! Check your inbox.");
-        toast.warning("Please verify your email before logging in.", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+        toast.warning("Please verify your email before logging in.");
         return;
       }
       navigate("/");
     } catch (error) {
       if (error.code === "auth/invalid-credential") {
         setMessage("* Invalid email or password.");
-        toast.warning("Invalid email or password.", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+        toast.warning("Invalid email or password.");
       } else {
         setMessage(error.message);
       }
@@ -183,14 +174,8 @@ const SignIn = () => {
       </div>
 
       <ToastContainer
-        position="top-center"
+        position="bottom-right"
         autoClose={2000}
-        hideProgressBar={false}
-        closeOnClick={false}
-        pauseOnHover
-        draggable
-        theme="light"
-        transition={Bounce}
       />
     </form>
   );

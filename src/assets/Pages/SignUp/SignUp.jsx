@@ -40,17 +40,7 @@ const SignUp = () => {
       .then(() => {
         sendEmailVerification(auth.currentUser).then(() => {
           setMessage("* Please check your inbox and verify");
-          toast.success("Successful. Please Check your inbox and verify 👌", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          });
+          toast.success("Successful. Please Check your inbox and verify 👌");
         });
         setTimeout(() => {
           navigate("/signIn");
@@ -59,10 +49,7 @@ const SignUp = () => {
       .catch((error) => {
         error.code === "auth/email-already-in-use"
           ? (setMessage("* Email already in use"),
-            toast.info("Email already in use!", {
-              position: "top-center",
-              autoClose: 2000,
-            }))
+            toast.info("Email already in use!"))
           : setMessage(error.code || error.message);
       });
   };
@@ -127,19 +114,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
+      <ToastContainer position="bottom-right" autoClose={1000} />
     </form>
   );
 };
