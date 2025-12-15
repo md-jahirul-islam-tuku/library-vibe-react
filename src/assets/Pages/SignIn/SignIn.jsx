@@ -75,17 +75,14 @@ const SignIn = () => {
       const userCredential = await signInUser(email, password);
 
       const user = userCredential.user;
-
       // block unverified account
       if (!user.emailVerified) {
         setUnverifiedUser(user);
         setMessage("* Please verify your email! Check your inbox.");
-
         toast.warning("Please verify your email before logging in.", {
           position: "top-center",
           autoClose: 2000,
         });
-
         return;
       }
       navigate("/");

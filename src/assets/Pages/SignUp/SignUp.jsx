@@ -73,7 +73,7 @@ const SignUp = () => {
     >
       <div className="hero-content w-108 flex-col">
         <div className="text-center">
-          <h1 className="text-3xl font-bold">Sign up now!</h1>
+          <h1 className="text-3xl font-bold">Please Sign up!</h1>
         </div>
         <div className="card bg-base-100 w-full max-w-lg shrink-0 shadow-2xl">
           <div className="card-body">

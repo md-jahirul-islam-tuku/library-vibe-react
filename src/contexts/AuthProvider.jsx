@@ -18,18 +18,12 @@ const AuthProvider = ({ children }) => {
       <li>
         <NavLink to={"/"}>Home</NavLink>
       </li>
-      {user ? (
-        <>
-          <li>
-            <NavLink to={"/listed-books"}>Listed Books</NavLink>
-          </li>
-          <li>
-            <NavLink to={"/pages-to-read"}>Pages to Read</NavLink>
-          </li>
-        </>
-      ) : (
-        ""
-      )}
+      <li>
+        <NavLink to={user?"/listed-books":"/signUp"}>Listed Books</NavLink>
+      </li>
+      <li>
+        <NavLink to={user?"/pages-to-read":"/signUp"}>Pages to Read</NavLink>
+      </li>
     </>
   );
   // Create User
