@@ -1,7 +1,7 @@
 import React, { use, useState } from "react";
 import { auth } from "../../components/Root/firebase.init";
 import { sendEmailVerification } from "firebase/auth";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { PiEyeBold, PiEyeClosedBold } from "react-icons/pi";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -10,6 +10,7 @@ const SignUp = () => {
   const [message, setMessage] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { createUser } = use(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -36,8 +37,7 @@ const SignUp = () => {
       return;
     }
     createUser(email, password)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
         sendEmailVerification(auth.currentUser).then(() => {
           setMessage("* Please check your inbox and verify");
           toast.success("Successful. Please Check your inbox and verify 👌", {
@@ -52,8 +52,9 @@ const SignUp = () => {
             transition: Bounce,
           });
         });
-        setShowPassword(false);
-        e.target.reset();
+        setTimeout(() => {
+          navigate("/signIn");
+        }, 2000);
       })
       .catch((error) => {
         error.code === "auth/email-already-in-use"
@@ -69,7 +70,7 @@ const SignUp = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="hero max-w-[1170px] mx-auto mt-20 mb-14"
+      className="hero max-w-[1170px] mx-auto mt-20 mb-14 caret-current"
     >
       <div className="hero-content w-108 flex-col">
         <div className="text-center">
@@ -111,7 +112,7 @@ const SignUp = () => {
               </label>
               <button className="btn btn-success mt-2">Sign up</button>
               <button className="btn btn-ghost" type="reset">
-                Reset
+                Form reset
               </button>
               <div className="text-center font-bold">
                 Already have an account?

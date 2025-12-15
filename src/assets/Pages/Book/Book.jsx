@@ -1,11 +1,13 @@
-import React from "react";
+import React, { use } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const Book = ({ book }) => {
   const { bookId, image, tags, bookName, author, category, rating } = book;
+  const { user } = use(AuthContext);
   return (
-    <Link to={`/bookDetails/${bookId}`}>
+    <Link to={user ? `/bookDetails/${bookId}` : "/warning"}>
       <div className="card bg-base-100 border-2 border-base-300 cursor-pointer hover:shadow-xl">
         <figure className="p-8 bg-base-200 m-3 rounded-b-lg">
           <img src={image} alt="Shoes" className="rounded h-36 shadow-lg" />

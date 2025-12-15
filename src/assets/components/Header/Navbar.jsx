@@ -1,13 +1,16 @@
 import React, { use } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const Navbar = () => {
   const { user, userSignOut, links } = use(AuthContext);
   console.log(user);
+  const navigate = useNavigate();
   const handleSignOut = () => {
     userSignOut()
-      .then(() => {})
+      .then(() => {
+        navigate("/");
+      })
       .catch((error) => console.log(error));
   };
   return (

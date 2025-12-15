@@ -1,7 +1,9 @@
-import React from "react";
+import React, { use } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const Banner = () => {
+  const { user } = use(AuthContext);
   return (
     <div className="hero bg-base-200 rounded-lg mt-18">
       <div className="hero-content flex-col lg:flex-row-reverse py-14">
@@ -13,7 +15,7 @@ const Banner = () => {
           <h1 className="text-5xl font-bold pb-6">
             Books to freshen up your bookshelf
           </h1>
-          <Link to={"/signUp"} className="btn btn-success">
+          <Link to={user ? "/" : "/warning"} className="btn btn-success">
             View The List
           </Link>
         </div>

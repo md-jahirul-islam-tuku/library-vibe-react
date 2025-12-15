@@ -9,6 +9,8 @@ import BookDetails from "../Pages/BookDetails/BookDetails";
 import SignUp from "../Pages/SignUp/SignUp";
 import SignIn from "../Pages/SignIn/SignIn";
 import PrivateRoutes from "./PrivateRoutes";
+import Warning from "../Pages/Warning/Warning";
+import SignRoutes from "./SignRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -65,11 +67,25 @@ export const router = createBrowserRouter([
       },
       {
         path: "signUp",
-        Component: SignUp,
+        // Component: SignUp,
+        element: (
+          <SignRoutes>
+            <SignUp />
+          </SignRoutes>
+        ),
       },
       {
         path: "signIn",
-        Component: SignIn,
+        // Component: SignIn,
+        element: (
+          <SignRoutes>
+            <SignIn />
+          </SignRoutes>
+        ),
+      },
+      {
+        path: "warning",
+        Component: Warning,
       },
     ],
   },

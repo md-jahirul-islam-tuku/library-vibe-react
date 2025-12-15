@@ -102,7 +102,7 @@ const SignIn = () => {
   return (
     <form
       onSubmit={handleSignIn}
-      className="hero max-w-[1170px] mx-auto mt-20 mb-14"
+      className="hero max-w-[1170px] mx-auto mt-20 mb-14 caret-current"
     >
       <div className="hero-content w-108 flex-col">
         <div className="text-center">

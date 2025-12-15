@@ -19,10 +19,10 @@ const AuthProvider = ({ children }) => {
         <NavLink to={"/"}>Home</NavLink>
       </li>
       <li>
-        <NavLink to={user?"/listed-books":"/signUp"}>Listed Books</NavLink>
+        <NavLink to={user?"/listed-books":"/warning"}>Listed Books</NavLink>
       </li>
       <li>
-        <NavLink to={user?"/pages-to-read":"/signUp"}>Pages to Read</NavLink>
+        <NavLink to={user?"/pages-to-read":"/warning"}>Pages to Read</NavLink>
       </li>
     </>
   );
