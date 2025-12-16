@@ -9,7 +9,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 const SignUp = () => {
   const [message, setMessage] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { createUser } = use(AuthContext);
+  const { createUser, setLoading } = use(AuthContext);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ const SignUp = () => {
           ? (setMessage("* Email already in use"),
             toast.info("Email already in use!"))
           : setMessage(error.code || error.message);
-      });
+      })
   };
 
   return (
@@ -114,7 +114,6 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-      <ToastContainer position="bottom-right" autoClose={1000} />
     </form>
   );
 };

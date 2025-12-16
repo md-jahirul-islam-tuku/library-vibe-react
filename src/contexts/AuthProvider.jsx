@@ -19,21 +19,21 @@ const AuthProvider = ({ children }) => {
         <NavLink to={"/"}>Home</NavLink>
       </li>
       <li>
-        <NavLink to={user?"/listed-books":"/warning"}>Listed Books</NavLink>
+        <NavLink to={user ? "/listed-books" : "/warning"}>Listed Books</NavLink>
       </li>
       <li>
-        <NavLink to={user?"/pages-to-read":"/warning"}>Pages to Read</NavLink>
+        <NavLink to={user ? "/pages-to-read" : "/warning"}>
+          Pages to Read
+        </NavLink>
       </li>
     </>
   );
   // Create User
   const createUser = (email, password) => {
-    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
   // Sign in User
   const signInUser = (email, password) => {
-    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
   // Sign Out

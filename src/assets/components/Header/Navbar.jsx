@@ -4,7 +4,6 @@ import { AuthContext } from "../../../contexts/AuthContext";
 
 const Navbar = () => {
   const { user, userSignOut, links } = use(AuthContext);
-  console.log(user);
   const navigate = useNavigate();
   const handleSignOut = () => {
     userSignOut()

@@ -70,8 +70,6 @@ const ListedBooks = () => {
           <WishlistBooks sortBy={sortBy} />
         </TabPanel>
       </Tabs>
-
-      <ToastContainer autoClose={1000} position="bottom-right" />
     </div>
   );
 };

@@ -172,11 +172,6 @@ const SignIn = () => {
           </div>
         </div>
       </div>
-
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-      />
     </form>
   );
 };

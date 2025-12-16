@@ -110,7 +110,6 @@ const BookDetails = () => {
             >
               Wishlist
             </button>
-            <ToastContainer autoClose={1000} position="bottom-right" />
           </div>
         </div>
       </div>
