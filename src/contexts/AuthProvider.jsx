@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import { auth } from "../assets/components/Root/firebase.init";
 import { NavLink } from "react-router";
 
+const provider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,6 +39,11 @@ const AuthProvider = ({ children }) => {
   const signInUser = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
+  // Sign in with Google
+  const signInGoogle = () => {
+    return signInWithPopup(auth, provider);
+  };
+
   // Sign Out
   const userSignOut = () => {
     setLoading(true);
@@ -61,6 +69,7 @@ const AuthProvider = ({ children }) => {
     links,
     loading,
     setLoading,
+    signInGoogle,
   };
   return <AuthContext value={userInfo}>{children}</AuthContext>;
 };
